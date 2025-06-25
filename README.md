@@ -50,7 +50,7 @@ Could you please let me know if there are any errors in my English or code?</p>
 
 | 新規登録                                                                                                | 編集・削除                                                                                              | カテゴリ設定                                                                                            |
 | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| <img src="https://github.com/user-attachments/assets/8bb7fc34-476d-480f-8d58-e86a63e11776" width="200"> | <img src="https://github.com/user-attachments/assets/f6b91989-3d70-4a4c-bc39-91f5e8bed57c" width="200"> | <img src="https://github.com/user-attachments/assets/69c1fb78-21b1-4967-8581-1d480ca899c7" width="200"> |
+| <img src="https://github.com/user-attachments/assets/5ee1eed6-7670-487d-b0a2-a4b776562c49" width="200"> | <img src="https://github.com/user-attachments/assets/f6b91989-3d70-4a4c-bc39-91f5e8bed57c" width="200"> | <img src="https://github.com/user-attachments/assets/69c1fb78-21b1-4967-8581-1d480ca899c7" width="200"> |
 
 ## 参考
 
