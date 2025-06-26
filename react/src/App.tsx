@@ -16,8 +16,8 @@ function App() {
     setGlovalNavIndex(index);
     const componentsArray = [
       <Home />,
-      <Settings />,
-      <Settings />,
+      <Settings init={0} />,
+      <Settings init={1} />,
       <Category />,
     ];
     setPage(componentsArray[index]);

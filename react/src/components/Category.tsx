@@ -1,23 +1,38 @@
+import { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 export default function Category() {
+  const getCategories = () => {
+    const data = JSON.parse(localStorage.getItem("whereToGoListCategory"));
+    return data.length ? data : ["観光スポット", "飲食店", "雑貨店"];
+  };
+
+  const categories = getCategories();
+  const categoriesRef = useRef([]);
+
+  const setData = () => {
+    const values = categoriesRef.current.map((input) => input?.value);
+    localStorage.setItem("whereToGoListCategory", JSON.stringify(values));
+  };
+
   return (
     <>
       <p>カテゴリ名を設定してください</p>
       <Form>
-        <Form.Group className="mt-4" controlId="exampleForm.ControlTextarea1">
-          <Form.Control type="text" />
-        </Form.Group>
-        <Form.Group className="mt-4" controlId="exampleForm.ControlTextarea1">
-          <Form.Control type="text" />
-        </Form.Group>
-        <Form.Group className="mt-4" controlId="exampleForm.ControlTextarea1">
-          <Form.Control type="text" />
-        </Form.Group>
-        <Form.Group className="mt-4" controlId="exampleForm.ControlTextarea1">
-          <Form.Control type="text" />
-        </Form.Group>
+        {categories.map((category, index) => (
+          <Form.Group
+            className="mt-4"
+            controlId={`category${index}`}
+            key={index}
+          >
+            <Form.Control
+              type="text"
+              defaultValue={category}
+              ref={(elm) => (categoriesRef.current[index] = elm)}
+            />
+          </Form.Group>
+        ))}
 
         <div className="text-end mt-3">
           <Button className="px-5 mx-3" variant="primary">
@@ -29,7 +44,11 @@ export default function Category() {
           <Button className="px-5 py-3 mx-3" variant="secondary">
             キャンセル
           </Button>
-          <Button className="px-5 py-3 mx-3" variant="primary">
+          <Button
+            className="px-5 py-3 mx-3"
+            variant="primary"
+            onClick={setData}
+          >
             設定する
           </Button>
         </div>
