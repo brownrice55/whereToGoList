@@ -1,13 +1,9 @@
 import { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { getCategories } from "./CommonFunctions";
 
 export default function Category() {
-  const getCategories = () => {
-    const data = JSON.parse(localStorage.getItem("whereToGoListCategory"));
-    return data.length ? data : ["観光スポット", "飲食店", "雑貨店"];
-  };
-
   const categories = getCategories();
   const categoriesRef = useRef([]);
 
