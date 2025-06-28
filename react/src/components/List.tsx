@@ -1,18 +1,31 @@
 import ListGroup from "react-bootstrap/ListGroup";
 
-export default function List() {
+export default function List({
+  place,
+  station,
+  category,
+  priority,
+  address,
+  notes,
+}) {
   return (
     <>
-      <ListGroup variant="flush" className="my-5">
-        <ListGroup.Item className="py-2">
-          <p>場所の名前が入ります。</p>
+      <ListGroup variant="flush" className="my-3">
+        <ListGroup.Item className="border-bottom">
+          <p>{place}</p>
           <div>
-            <span>最寄駅</span>
-            <span>カテゴリ</span>
-            <span>優先順位</span>
+            <span className="py-2 px-3 me-3 badge text-bg-secondary">
+              {station}
+            </span>
+            <span className="py-2 px-3 me-3 badge text-bg-secondary">
+              {category}
+            </span>
+            <span className="py-2 px-3 badge text-bg-secondary">
+              {priority}
+            </span>
           </div>
-          <p>住所が入ります。住所が入ります。住所が入ります。</p>
-          <p>メモが入ります。メモが入ります。メモが入ります。</p>
+          <p className="pt-3">{address}</p>
+          <p>{notes}</p>
         </ListGroup.Item>
       </ListGroup>
     </>

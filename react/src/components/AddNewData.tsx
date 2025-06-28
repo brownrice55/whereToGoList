@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { getCategories, getData } from "./CommonFunctions";
+import { getCategories, getData, priorityArray } from "./CommonFunctions";
 
 export default function AddNewData() {
   const data = getData();
@@ -12,7 +12,7 @@ export default function AddNewData() {
 
   const defaultValues = {
     place: "",
-    category: 1,
+    category: categories[0],
     address: "",
     priority: 1,
     station: "",
@@ -61,7 +61,7 @@ export default function AddNewData() {
           <Form.Label>カテゴリ名</Form.Label>
           <Form.Select aria-label="category" {...register("category")}>
             {categories.map((category, index) => (
-              <option value={index + 1} key={index + 1}>
+              <option value={category} key={index + 1}>
                 {category}
               </option>
             ))}
@@ -92,9 +92,11 @@ export default function AddNewData() {
         <Form.Group className="mt-4" controlId="priority">
           <Form.Label>優先度</Form.Label>
           <Form.Select aria-label="priority" {...register("priority")}>
-            <option value="1">凄く行ってみたい</option>
-            <option value="2">まぁまぁ行ってみたい</option>
-            <option value="3">ちょっと気になる</option>
+            {priorityArray.map((val, index) => (
+              <option value={index + 1} key={index + 1}>
+                {val}
+              </option>
+            ))}
           </Form.Select>
         </Form.Group>
 

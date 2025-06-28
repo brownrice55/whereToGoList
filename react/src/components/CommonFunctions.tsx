@@ -12,3 +12,9 @@ export function getData() {
   }
   return data;
 }
+
+export const priorityArray = [
+  "凄く行ってみたい",
+  "まぁまぁ行ってみたい",
+  "ちょっと気になる",
+];

@@ -9,8 +9,11 @@ import TabNav from "./TabNav";
 import List from "./List";
 import Map from "./Map";
 
+import { getData, priorityArray } from "./CommonFunctions";
+
 export default function Home() {
   const [tabIndex, setTabIndex] = useState(0);
+  const data = getData();
 
   const update = (index) => setTabIndex(index);
 
@@ -30,9 +33,17 @@ export default function Home() {
       </Nav>
       {!tabIndex ? (
         <div>
-          <List />
-          <List />
-          <List />
+          {[...data].map(([key, val]) => (
+            <List
+              key={key}
+              place={val.place}
+              station={val.station}
+              category={val.category}
+              priority={priorityArray[parseInt(val.priority) - 1]}
+              address={val.address}
+              notes={val.notes}
+            />
+          ))}
         </div>
       ) : (
         <Map />
