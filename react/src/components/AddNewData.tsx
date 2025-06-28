@@ -6,7 +6,8 @@ import { getCategories, getData, priorityArray } from "./CommonFunctions";
 
 export default function AddNewData() {
   const data = getData();
-  let nextId = parseInt(localStorage.getItem("whereToGoListId")) || 1;
+  const keysArray = data.size && Array.from(data.keys());
+  let nextId = data.size ? keysArray[keysArray.length - 1] : 0;
 
   const categories = getCategories();
 
@@ -32,10 +33,9 @@ export default function AddNewData() {
 
   const registerData = () => {
     const values = getValues();
-    data.set(nextId, values);
     ++nextId;
+    data.set(nextId, values);
     localStorage.setItem("whereToGoListData", JSON.stringify([...data]));
-    localStorage.setItem("whereToGoListId", nextId);
   };
 
   useEffect(() => {

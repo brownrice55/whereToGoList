@@ -12,7 +12,15 @@ export default function List({
     <>
       <ListGroup variant="flush" className="my-3">
         <ListGroup.Item className="border-bottom">
-          <p>{place}</p>
+          <p>
+            <a
+              href={`https://www.google.com/search?q=${place}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {place}
+            </a>
+          </p>
           <div>
             <span className="py-2 px-3 me-3 badge text-bg-secondary">
               {station}
