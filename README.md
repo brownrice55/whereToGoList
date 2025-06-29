@@ -56,14 +56,15 @@ Could you please let me know if there are any errors in my English or code?</p>
 ## 参考
 
 <ul>
-<li>https://react-bootstrap.github.io/</li>
-<li>https://react-hook-form.com/</li>
+<li><a href="https://react-bootstrap.github.io/" target="_blank" rel="noopener noreferrer">React Bootstrap</a></li>
+<li><a href="https://react-hook-form.com/" target="_blank" rel="noopener noreferrer">React Hook Form</a></li>
 </ul>
 
-### 参考図書/動画
+### 勉強した本/動画
 
 <ul>
 <li>モダンJavaScriptの基本から始める React実践の教科書</li>
 <li>これからはじめるReact実践入門 コンポーネントの基本からNext.jsによるアプリ開発まで</li>
-<li>https://www.youtube.com/watch?v=Rh3tobg7hEo</li>
+<li><a href="https://www.youtube.com/watch?v=SqcY0GlETPk" target="_blank" rel="noopener noreferrer">React Tutorial for Beginners</li>
+<li><a href="https://www.youtube.com/watch?v=Rh3tobg7hEo" target="_blank" rel="noopener noreferrer">Learn React With This One Project</li>
 </ul>

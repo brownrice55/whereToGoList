@@ -14,7 +14,7 @@ export default function List({
         <ListGroup.Item className="border-bottom">
           <p>
             <a
-              href={`https://www.google.com/search?q=${place}`}
+              href={`https://www.google.com/search?q=${place} ${station}`}
               target="_blank"
               rel="noopener noreferrer"
             >

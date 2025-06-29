@@ -20,7 +20,7 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container>
+      <Container className="pt-3">
         <Outlet />
       </Container>
     </>

@@ -33,7 +33,10 @@ export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
     getValues,
     reset,
     formState: { errors, isDirty, isValid, isSubmitSuccessful },
-  } = useForm({ defaultValues });
+  } = useForm({
+    defaultValues,
+    mode: "onChange",
+  });
 
   const onsubmit = (data) => console.log(data);
   const onerror = (err) => console.log(err);
