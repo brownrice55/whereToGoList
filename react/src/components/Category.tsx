@@ -5,34 +5,49 @@ import { getCategories } from "./CommonFunctions";
 
 export default function Category() {
   const categories = getCategories();
-  const [form, setForm] = useState({ category: categories });
+  const [form, setForm] = useState(categories);
+  const [alert, setAlert] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const handleInput = (index, e) => {
-    const newForm = { category: [...form.category] };
-    newForm.category[index] = e.target.value;
-    setForm(newForm);
+    const newForm = [...form];
+    newForm[index] = e.target.value;
+    const values = newForm.filter((val) => val);
+    if (values.length) {
+      setForm(values);
+    } else {
+      setAlert(!values[0]);
+    }
+    setIsDisabled(JSON.stringify(categories) === JSON.stringify(values));
   };
 
   const handleAdd = () => {
-    const newForm = { category: [...form.category, ""] };
+    const newForm = [...form, ""];
     setForm(newForm);
   };
 
   const handleSave = () => {
-    const values = form.category.filter((val) => val);
-    setForm({ ...form, category: values });
+    const values = form.filter((val) => val);
+    setForm(values);
     localStorage.setItem("whereToGoListCategory", JSON.stringify(values));
+    setAlert(false);
   };
 
   const handleCancel = () => {
-    setForm({ ...form, category: categories });
+    setForm(categories);
+    setAlert(false);
   };
 
   return (
     <>
-      <p>カテゴリ名を設定してください</p>
+      <p>
+        カテゴリ名を設定してください。
+        <span className={alert ? "text-danger" : "d-none"}>
+          少なくとも1つは設定してください。
+        </span>
+      </p>
       <Form>
-        {form.category.map((val, index) => (
+        {form.map((val, index) => (
           <Form.Group
             className="mt-4"
             controlId={`category${index}`}
@@ -57,6 +72,7 @@ export default function Category() {
             className="px-5 py-3 mx-3"
             variant="secondary"
             onClick={handleCancel}
+            disabled={isDisabled}
           >
             キャンセル
           </Button>
@@ -64,6 +80,7 @@ export default function Category() {
             className="px-5 py-3 mx-3"
             variant="primary"
             onClick={handleSave}
+            disabled={isDisabled}
           >
             設定する
           </Button>

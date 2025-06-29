@@ -1,6 +1,6 @@
 export function getCategories() {
   const data = JSON.parse(localStorage.getItem("whereToGoListCategory"));
-  return data.length ? data : ["観光スポット", "飲食店", "雑貨店"];
+  return data ? data : ["観光スポット", "飲食店", "雑貨店"];
 }
 
 export function getData() {
