@@ -5,33 +5,34 @@ import { getCategories } from "./CommonFunctions";
 
 export default function Category() {
   const categories = getCategories();
-  const [form, setForm] = useState(categories);
+  const [form, setForm] = useState({ category: categories });
 
   const handleInput = (index, e) => {
-    const newForm = [...form];
-    newForm[index] = e.target.value;
+    const newForm = { category: [...form.category] };
+    newForm.category[index] = e.target.value;
     setForm(newForm);
   };
 
   const handleAdd = () => {
-    const newForm = [...form, ""];
+    const newForm = { category: [...form.category, ""] };
     setForm(newForm);
   };
 
   const handleSave = () => {
-    const values = form.filter((val) => val);
+    const values = form.category.filter((val) => val);
+    setForm({ ...form, category: values });
     localStorage.setItem("whereToGoListCategory", JSON.stringify(values));
   };
 
   const handleCancel = () => {
-    setForm(categories);
+    setForm({ ...form, category: categories });
   };
 
   return (
     <>
       <p>カテゴリ名を設定してください</p>
       <Form>
-        {form.map((category, index) => (
+        {form.category.map((val, index) => (
           <Form.Group
             className="mt-4"
             controlId={`category${index}`}
@@ -39,7 +40,7 @@ export default function Category() {
           >
             <Form.Control
               type="text"
-              defaultValue={form[index]}
+              value={val}
               onChange={(e) => handleInput(index, e)}
             />
           </Form.Group>
