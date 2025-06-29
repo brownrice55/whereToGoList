@@ -5,17 +5,14 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import TabNav from "./TabNav";
 import List from "./List";
 import Map from "./Map";
 
 import { getData, priorityArray } from "./CommonFunctions";
 
-export default function Home() {
-  const [tabIndex, setTabIndex] = useState(0);
+export default function Home({ tabIndex }) {
   const data = getData();
-
-  const update = (index) => setTabIndex(index);
+  const activeKey = tabIndex ? "/map" : "/";
 
   return (
     <>
@@ -27,9 +24,13 @@ export default function Home() {
           <Button variant="primary">検索</Button>
         </Col>
       </Form.Group>
-      <Nav variant="tabs" defaultActiveKey="/list" className="mt-4">
-        <TabNav index={0} title="リスト" activeKey="/list" onUpdate={update} />
-        <TabNav index={1} title="地図" activeKey="/map" onUpdate={update} />
+      <Nav variant="tabs" defaultActiveKey={activeKey} className="mt-4">
+        <Nav.Item>
+          <Nav.Link href="/">リスト</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="/map">地図</Nav.Link>
+        </Nav.Item>
       </Nav>
       {!tabIndex ? (
         <div>

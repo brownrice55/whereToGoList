@@ -18,6 +18,7 @@ Could you please let me know if there are any errors in my English or code?</p>
 > 行きたいところリスト
 
 <p>地図を見たりネットで検索している時に「ここに行ってみたいな」と思うことが多く、そして忘れてしまうことも多いので、メモをしておいて、近くに用事がある時に他の場所も一緒に色々行けたら良いなと思った自分のためのアプリです。</p>
+<p>React.jsに慣れることも今回の制作の目的の1つです。</p>
 
 ## 基本機能
 
@@ -57,4 +58,12 @@ Could you please let me know if there are any errors in my English or code?</p>
 <ul>
 <li>https://react-bootstrap.github.io/</li>
 <li>https://react-hook-form.com/</li>
+</ul>
+
+### 参考図書/動画
+
+<ul>
+<li>モダンJavaScriptの基本から始める React実践の教科書</li>
+<li>これからはじめるReact実践入門 コンポーネントの基本からNext.jsによるアプリ開発まで</li>
+<li>https://www.youtube.com/watch?v=Rh3tobg7hEo</li>
 </ul>
