@@ -1,9 +1,6 @@
 import { useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 import List from "./List";
 import Map from "./Map";
@@ -11,18 +8,31 @@ import Map from "./Map";
 import { getData, priorityArray } from "./CommonFunctions";
 
 export default function Home({ tabIndex }) {
-  const data = getData();
+  const originalData = getData();
+  const [data, setData] = useState(originalData);
+
   const activeKey = tabIndex ? "/map" : "/";
+
+  const handleSearch = (e) => {
+    const inputValue = e.target.value;
+
+    const newEntries = [...originalData].filter(
+      ([, val]) =>
+        val.place.includes(inputValue) ||
+        val.address.includes(inputValue) ||
+        val.station.includes(inputValue)
+    );
+    setData(newEntries);
+  };
 
   return (
     <>
-      <Form.Group as={Row} className="mb-3" controlId="form">
-        <Col sm="10">
-          <Form.Control type="text" />
-        </Col>
-        <Col sm="2" className="text-end">
-          <Button variant="primary">検索</Button>
-        </Col>
+      <Form.Group className="mt-5" controlId="form">
+        <Form.Control
+          type="text"
+          placeholder="どこに行きたい？何したい？"
+          onChange={(e) => handleSearch(e)}
+        />
       </Form.Group>
       <Nav variant="tabs" defaultActiveKey={activeKey} className="mt-4">
         <Nav.Item>

@@ -43,7 +43,7 @@ export default function Category() {
       <p>
         カテゴリ名を設定してください。
         <span className={alert ? "text-danger" : "d-none"}>
-          少なくとも1つは設定してください。
+          1つ以上設定してください。
         </span>
       </p>
       <Form>
