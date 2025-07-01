@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-import { getData } from "./CommonFunctions";
+import { getData } from "../utils/common";
 import FormForAddAndEdit from "./FormForAddAndEdit";
 
 export default function EditAndDeleteData() {

@@ -5,9 +5,9 @@ import {
 } from "react-router-dom";
 
 import App from "./App";
-import Home from "./components/Home";
-import Settings from "./components/Settings";
-import Category from "./components/Category";
+import Home from "./pages/Home";
+import Settings from "./pages/Settings";
+import Category from "./pages/Category";
 
 const routesLink = createBrowserRouter(
   createRoutesFromElements(

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { getCategories } from "./CommonFunctions";
+import { getCategories } from "../utils/common";
 
 export default function Category() {
   const categories = getCategories();

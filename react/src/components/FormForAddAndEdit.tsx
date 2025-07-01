@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { getCategories, getData, priorityArray } from "./CommonFunctions";
+import { getCategories, getData, priorityArray } from "../utils/common";
 
 export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
   const data = getData();

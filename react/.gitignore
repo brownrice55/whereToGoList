@@ -32,3 +32,4 @@ tsconfig.json
 tsconfig.node.json
 vite.config.ts
 vite-env.d.ts
+src/config/api-config.ts

@@ -1,7 +1,7 @@
 import Nav from "react-bootstrap/Nav";
 
-import AddNewData from "./AddNewData";
-import EditAndDeleteData from "./EditAndDeleteData";
+import AddNewData from "../components/AddNewData";
+import EditAndDeleteData from "../components/EditAndDeleteData";
 
 export default function Settings({ tabIndex }) {
   const activeKey = tabIndex ? "/edit" : "/add";

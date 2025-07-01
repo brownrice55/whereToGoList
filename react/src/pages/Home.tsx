@@ -2,10 +2,9 @@ import { useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 
-import List from "./List";
-import Map from "./Map";
-
-import { getData, priorityArray } from "./CommonFunctions";
+import List from "../components/List";
+import Map from "../components/Map";
+import { getData, priorityArray } from "../utils/common";
 
 export default function Home({ tabIndex }) {
   const originalData = getData();
@@ -30,7 +29,7 @@ export default function Home({ tabIndex }) {
       <Form.Group className="mt-5" controlId="form">
         <Form.Control
           type="text"
-          placeholder="どこに行きたい？何したい？"
+          placeholder="どこに行きたいですか？何をしたいですか？"
           onChange={(e) => handleSearch(e)}
         />
       </Form.Group>
