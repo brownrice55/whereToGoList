@@ -4,10 +4,10 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import App from "./App";
-import Home from "./pages/Home";
-import Settings from "./pages/Settings";
-import Category from "./pages/Category";
+import App from "../App";
+import Home from "../pages/Home";
+import Settings from "../pages/Settings";
+import Category from "../pages/Category";
 
 const routesLink = createBrowserRouter(
   createRoutesFromElements(

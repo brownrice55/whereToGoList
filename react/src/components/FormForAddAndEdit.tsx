@@ -1,11 +1,15 @@
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { getCategories, getData, priorityArray } from "../utils/common";
+import { DoesDataExistContext } from "../contexts/DataProvider";
 
 export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
-  const data = getData();
+  const originalData = getData();
+  const [data, setData] = useState(originalData);
+  const { setDoesDataExist } = useContext(DoesDataExistContext);
+
   const keysArray = data.size && Array.from(data.keys());
   let nextId = keyNumber
     ? keyNumber
@@ -46,6 +50,8 @@ export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
     nextId = keyNumber ? keyNumber : nextId + 1;
     data.set(nextId, values);
     localStorage.setItem("whereToGoListData", JSON.stringify([...data]));
+    setData(data);
+    setDoesDataExist(true);
     if (keyNumber) {
       onUpdate(!isClosed);
     }
@@ -67,8 +73,17 @@ export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
 
   return (
     <>
-      <Form onSubmit={handleSubmit(onsubmit, onerror)} noValidate>
-        <Form.Group className="mt-5" controlId="place">
+      {!keyNumber && (
+        <p className="mt-5">
+          行ってみたい（またはお気に入りの）場所の情報を登録してください。
+        </p>
+      )}
+      <Form
+        className="mt-4"
+        onSubmit={handleSubmit(onsubmit, onerror)}
+        noValidate
+      >
+        <Form.Group controlId="place">
           <Form.Label>場所の名前</Form.Label>
           <Form.Control
             type="text"

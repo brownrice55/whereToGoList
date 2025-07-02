@@ -1,22 +1,31 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-
+import { useNavigate } from "react-router-dom";
+import { DoesDataExistContext } from "../contexts/DataProvider";
 import { getData } from "../utils/common";
+
 import FormForAddAndEdit from "./FormForAddAndEdit";
 
 export default function EditAndDeleteData() {
-  const data = getData();
-  const [list, setList] = useState(new Map(data));
+  const { setDoesDataExist } = useContext(DoesDataExistContext);
+  const originalData = getData();
+  const [data, setData] = useState(originalData);
+
+  const navigate = useNavigate();
 
   const handleDelete = (key) => {
-    const newMap = new Map(list);
+    const newMap = new Map(data);
     newMap.delete(key);
-    setList(newMap);
+    setData(newMap);
     localStorage.setItem("whereToGoListData", JSON.stringify([...newMap]));
+    if (!newMap.size) {
+      setDoesDataExist(false);
+      navigate("/");
+    }
   };
 
   const [show, setShow] = useState(false);
@@ -38,7 +47,7 @@ export default function EditAndDeleteData() {
     <>
       <ListGroup variant="flush" className="my-5">
         <ListGroup.Item className="py-2">
-          {[...list].map(([key, val]) => (
+          {[...data].map(([key, val]) => (
             <Row key={key}>
               <Col>{val.place}</Col>
               <Col className="text-end mb-3">
