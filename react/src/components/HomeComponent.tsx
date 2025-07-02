@@ -1,38 +1,14 @@
-import { useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import Form from "react-bootstrap/Form";
 
 import List from "../components/List";
 import Map from "../components/Map";
-import { getData, priorityArray } from "../utils/common";
+import { priorityArray } from "../utils/common";
 
-export default function HomeComponent({ tabIndex }) {
-  const originalData = getData();
-  const [data, setData] = useState(originalData);
-
+export default function HomeComponent({ tabIndex, data }) {
   const activeKey = tabIndex ? "/map" : "/";
-
-  const handleSearch = (e) => {
-    const inputValue = e.target.value;
-
-    const newEntries = [...originalData].filter(
-      ([, val]) =>
-        val.place.includes(inputValue) ||
-        val.address.includes(inputValue) ||
-        val.station.includes(inputValue)
-    );
-    setData(newEntries);
-  };
 
   return (
     <>
-      <Form.Group className="mt-5" controlId="form">
-        <Form.Control
-          type="text"
-          placeholder="どこに行きたいですか？何をしたいですか？"
-          onChange={(e) => handleSearch(e)}
-        />
-      </Form.Group>
       <Nav variant="tabs" defaultActiveKey={activeKey} className="mt-4">
         <Nav.Item>
           <Nav.Link href="/">リスト</Nav.Link>
@@ -56,7 +32,7 @@ export default function HomeComponent({ tabIndex }) {
           ))}
         </div>
       ) : (
-        <Map />
+        <Map data={data} />
       )}
     </>
   );

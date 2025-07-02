@@ -59,6 +59,7 @@ Could you please let me know if there are any errors in my English or code?</p>
 <li>https://react-bootstrap.github.io/</li>
 <li>https://react-hook-form.com/</li>
 <li>https://react-leaflet.js.org/</li>
+<li>https://opencagedata.com/</li>
 </ul>
 
 ### 勉強した本/動画
