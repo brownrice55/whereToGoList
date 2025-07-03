@@ -5,61 +5,104 @@ import "../css/map.css";
 import "leaflet/dist/leaflet.css";
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-const fetchApi = async (apiURL) => {
+const fetchApi = async (aApiURL) => {
   await sleep(1000);
-  const res = await fetch(apiURL);
+  const res = await fetch(aApiURL);
   if (res.ok) {
     return res.json();
+  } else {
     throw new Error(res.statusText);
   }
 };
 
 export default function Map({ data }) {
+  const [locations, setLocations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const getApiURL = (aAddress) => {
     return `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
       aAddress
     )}&key=${key}&language=ja`;
   };
 
-  const [apiData, setApiData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-  let lat = 0;
-  let lng = 0;
-
   useEffect(() => {
     setIsLoading(true);
-    fetchApi(getApiURL([...data][0][1].address))
-      .then((result) => setApiData(result))
-      .catch((err) => setError(err.message))
+    Promise.all(
+      [...data].map(async (array) => {
+        try {
+          const result = await fetchApi(getApiURL(array[1].address));
+          if (result.results.length) {
+            return {
+              place: array[1].place,
+              station: array[1].station,
+              lat: result.results[0].geometry.lat,
+              lng: result.results[0].geometry.lng,
+            };
+          }
+          return null;
+        } catch (err) {
+          setError(err.message);
+        }
+      })
+    )
+      .then((val) => setLocations(val.filter(Boolean)))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [data]);
+
+  if (!data) {
+    return null;
+  }
   if (isLoading) {
-    return <p>読み込み中...</p>;
+    return <p className="py-4">読み込み中...</p>;
   }
   if (error) {
-    return <p>Error: 取得できませんでした。</p>;
+    return <p className="py-4">データを取得できませんでした。</p>;
   }
-  if (apiData.results.length) {
-    lat = apiData.results[0].geometry.lat;
-    lng = apiData.results[0].geometry.lng;
+  if (!locations.length) {
+    return <p className="py-4">該当するデータがありません。</p>;
   }
+
+  let latTotal = 0;
+  let lngTotal = 0;
+  locations.forEach((location) => {
+    latTotal += location.lat;
+    lngTotal += location.lng;
+  });
+  const locationLength = locations.length;
+  const center = [latTotal / locationLength, lngTotal / locationLength];
 
   return (
     <>
       <MapContainer
-        className="map my-5"
-        center={[lat, lng]}
-        zoom={13}
+        className="map my-4"
+        center={center}
+        zoom={10}
         scrollWheelZoom={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[lat, lng]}>
-          <Popup>店名などが入ります。</Popup>
-        </Marker>
+        {locations.map(
+          (location, index) =>
+            typeof location.lat === "number" &&
+            !isNaN(location.lat) &&
+            typeof location.lng === "number" &&
+            !isNaN(location.lng) && (
+              <Marker key={index} position={[location.lat, location.lng]}>
+                <Popup>
+                  <a
+                    href={`https://www.google.com/search?q=${location.place} ${location.station}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {location.place}
+                  </a>
+                </Popup>
+              </Marker>
+            )
+        )}
       </MapContainer>
     </>
   );

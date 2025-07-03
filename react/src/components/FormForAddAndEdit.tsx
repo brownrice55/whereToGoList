@@ -20,7 +20,7 @@ export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
   const categories = getCategories();
   const dataForEdit = keyNumber && data.get(keyNumber);
 
-  const btnText = keyNumber ? "編集する" : "登録する";
+  const btnText = keyNumber ? "上書き保存する" : "登録する";
 
   const defaultValues = {
     place: keyNumber ? dataForEdit.place : "",
