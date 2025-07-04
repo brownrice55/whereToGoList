@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
 
 import { DoesDataExistContext } from "../contexts/DataProvider";
 import AddNewData from "../components/AddNewData";
@@ -11,26 +10,41 @@ export default function Home({ tabIndex }) {
   const { doesDataExist } = useContext(DoesDataExistContext);
   const originalData = getData();
   const [data, setData] = useState(originalData);
-  const [params, setParams] = useSearchParams({ keywords: "" });
-  const [inputs, setInputs] = useState(params.get("keywords"));
+
+  const search = window.location.search;
+  const displayString = search.substring(10).replace(/&/g, "　");
+  const decoded = decodeURIComponent(displayString);
+
+  const [inputs, setInputs] = useState(decoded);
 
   const handleSearch = (e, aKeywords) => {
     const inputValue = aKeywords ?? e?.target?.value ?? "";
     setInputs(inputValue);
 
-    const newEntries = [...originalData].filter(
-      ([, val]) =>
-        val.place.includes(inputValue) ||
-        val.address.includes(inputValue) ||
-        val.station.includes(inputValue)
+    const inputValueArray = inputValue.split(/[ 　]+/);
+    const getIsIncluded = (aVal) => {
+      let cnt = 0;
+      inputValueArray.forEach((val) => {
+        if (
+          aVal.place.includes(val) ||
+          aVal.address.includes(val) ||
+          aVal.station.includes(val)
+        ) {
+          ++cnt;
+        }
+      });
+      return cnt === inputValueArray.length;
+    };
+
+    const newEntries = [...originalData].filter(([, val]) =>
+      getIsIncluded(val)
     );
     setData(newEntries);
   };
 
   useEffect(() => {
-    const getParams = params.get("keywords");
-    handleSearch(null, getParams);
-  }, [params]);
+    handleSearch(null, decoded);
+  }, [search]);
 
   return (
     <>
@@ -39,7 +53,7 @@ export default function Home({ tabIndex }) {
           type="text"
           placeholder="どこに行きたいですか？何をしたいですか？"
           value={inputs}
-          onChange={(e) => handleSearch(e)}
+          onChange={(e) => handleSearch(e, null)}
         />
       </Form.Group>
       {doesDataExist ? (
