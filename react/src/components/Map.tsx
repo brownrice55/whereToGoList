@@ -59,7 +59,9 @@ export default function Map({ data }) {
   if (error) {
     return <p className="py-4">データを取得できませんでした。</p>;
   }
-  if (!locations.length) {
+
+  const locationLength = locations.length;
+  if (!locationLength) {
     return <p className="py-4">該当するデータがありません。</p>;
   }
 
@@ -69,7 +71,6 @@ export default function Map({ data }) {
     latTotal += location.lat;
     lngTotal += location.lng;
   });
-  const locationLength = locations.length;
   const center = [latTotal / locationLength, lngTotal / locationLength];
 
   return (

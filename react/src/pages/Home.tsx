@@ -1,4 +1,5 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { DoesDataExistContext } from "../contexts/DataProvider";
 import AddNewData from "../components/AddNewData";
@@ -10,9 +11,12 @@ export default function Home({ tabIndex }) {
   const { doesDataExist } = useContext(DoesDataExistContext);
   const originalData = getData();
   const [data, setData] = useState(originalData);
+  const [params, setParams] = useSearchParams({ keywords: "" });
+  const [inputs, setInputs] = useState(params.get("keywords"));
 
-  const handleSearch = (e) => {
-    const inputValue = e.target.value;
+  const handleSearch = (e, aKeywords) => {
+    const inputValue = aKeywords ?? e?.target?.value ?? "";
+    setInputs(inputValue);
 
     const newEntries = [...originalData].filter(
       ([, val]) =>
@@ -23,17 +27,23 @@ export default function Home({ tabIndex }) {
     setData(newEntries);
   };
 
+  useEffect(() => {
+    const getParams = params.get("keywords");
+    handleSearch(null, getParams);
+  }, [params]);
+
   return (
     <>
       <Form.Group className="mt-5" controlId="form">
         <Form.Control
           type="text"
           placeholder="どこに行きたいですか？何をしたいですか？"
+          value={inputs}
           onChange={(e) => handleSearch(e)}
         />
       </Form.Group>
       {doesDataExist ? (
-        <HomeComponent tabIndex={tabIndex} data={data} />
+        <HomeComponent tabIndex={tabIndex} data={data} inputs={inputs} />
       ) : (
         <AddNewData />
       )}

@@ -4,17 +4,17 @@ import List from "../components/List";
 import Map from "../components/Map";
 import { priorityArray } from "../utils/common";
 
-export default function HomeComponent({ tabIndex, data }) {
-  const activeKey = tabIndex ? "/map" : "/";
+export default function HomeComponent({ tabIndex, data, inputs }) {
+  const activeKey = tabIndex ? `/?keywords=${inputs}` : `/?$keywords={inputs}`;
 
   return (
     <>
       <Nav variant="tabs" defaultActiveKey={activeKey} className="mt-4">
         <Nav.Item>
-          <Nav.Link href="/">リスト</Nav.Link>
+          <Nav.Link href={`/?keywords=${inputs}`}>リスト</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href="/map">地図</Nav.Link>
+          <Nav.Link href={`/map?keywords=${inputs}`}>地図</Nav.Link>
         </Nav.Item>
       </Nav>
       {!tabIndex ? (
