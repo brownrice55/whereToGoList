@@ -4,11 +4,11 @@ import AddNewData from "../components/AddNewData";
 import EditAndDeleteData from "../components/EditAndDeleteData";
 
 import { useContext } from "react";
-import { DoesDataExistContext } from "../contexts/DataProvider";
+import { DoesDataExistContext } from "../contexts/context";
 
 export default function Settings({ tabIndex }) {
-  const activeKey = tabIndex ? "/edit" : "/add";
-  const { doesDataExist } = useContext(DoesDataExistContext);
+  const activeKey: string = tabIndex ? "/edit" : "/add";
+  const { doesDataExist } = useContext<number>(DoesDataExistContext);
 
   return (
     <>

@@ -4,12 +4,21 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "../css/map.css";
 import "leaflet/dist/leaflet.css";
 
+type MapType = {
+  results: Array<{
+    geometry: {
+      lat: number;
+      lng: number;
+    };
+  }>;
+};
+
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 const fetchApi = async (aApiURL) => {
   await sleep(1000);
   const res = await fetch(aApiURL);
   if (res.ok) {
-    return res.json();
+    return res.json() as MapType;
   } else {
     throw new Error(res.statusText);
   }
@@ -17,8 +26,8 @@ const fetchApi = async (aApiURL) => {
 
 export default function Map({ data }) {
   const [locations, setLocations] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
   const getApiURL = (aAddress) => {
     return `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(

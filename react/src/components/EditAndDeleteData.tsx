@@ -5,15 +5,16 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-import { DoesDataExistContext } from "../contexts/DataProvider";
+import { DoesDataExistContext } from "../contexts/context";
 import { getData } from "../utils/common";
+import type { Value } from "../types/value.interface";
 
 import FormForAddAndEdit from "./FormForAddAndEdit";
 
 export default function EditAndDeleteData() {
-  const { setDoesDataExist } = useContext(DoesDataExistContext);
+  const { setDoesDataExist } = useContext<boolean>(DoesDataExistContext);
   const originalData = getData();
-  const [data, setData] = useState(originalData);
+  const [data, setData] = useState<number, Value>(originalData);
 
   const navigate = useNavigate();
 
@@ -28,8 +29,8 @@ export default function EditAndDeleteData() {
     }
   };
 
-  const [show, setShow] = useState(false);
-  const [nextId, setNextId] = useState(0);
+  const [show, setShow] = useState<boolean>(false);
+  const [nextId, setNextId] = useState<number>(0);
 
   const handleClose = () => setShow(false);
   const handleEdit = (key) => {

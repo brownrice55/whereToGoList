@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useContext } from "react";
-import { DoesDataExistContext } from "./contexts/DataProvider";
+import { DoesDataExistContext } from "./contexts/context";
 
 function App() {
   const { doesDataExist } = useContext(DoesDataExistContext);

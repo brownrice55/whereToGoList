@@ -3,12 +3,13 @@ import { useState, useEffect, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { getCategories, getData, priorityArray } from "../utils/common";
-import { DoesDataExistContext } from "../contexts/DataProvider";
+import { DoesDataExistContext } from "../contexts/context";
+import type { Value } from "../types/value.interface";
 
 export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
   const originalData = getData();
-  const [data, setData] = useState(originalData);
-  const { setDoesDataExist } = useContext(DoesDataExistContext);
+  const [data, setData] = useState<number, Value>(originalData);
+  const { setDoesDataExist } = useContext<number>(DoesDataExistContext);
 
   const keysArray = data.size && Array.from(data.keys());
   let nextId = keyNumber
@@ -20,7 +21,7 @@ export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
   const categories = getCategories();
   const dataForEdit = keyNumber && data.get(keyNumber);
 
-  const btnText = keyNumber ? "上書き保存する" : "登録する";
+  const btnText: string = keyNumber ? "上書き保存する" : "登録する";
 
   const defaultValues = {
     place: keyNumber ? dataForEdit.place : "",

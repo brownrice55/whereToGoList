@@ -1,21 +1,22 @@
 import { useState, useContext, useEffect } from "react";
 
-import { DoesDataExistContext } from "../contexts/DataProvider";
+import { DoesDataExistContext } from "../contexts/context";
 import AddNewData from "../components/AddNewData";
 import HomeComponent from "../components/HomeComponent";
 import Form from "react-bootstrap/Form";
 import { getData } from "../utils/common";
+import type { Value } from "../types/value.interface";
 
 export default function Home({ tabIndex }) {
-  const { doesDataExist } = useContext(DoesDataExistContext);
+  const { doesDataExist } = useContext<number>(DoesDataExistContext);
   const originalData = getData();
-  const [data, setData] = useState(originalData);
+  const [data, setData] = useState<number, Value>(originalData);
 
   const search = window.location.search;
   const displayString = search.substring(10).replace(/&/g, "　");
-  const decoded = decodeURIComponent(displayString);
+  const decoded: string = decodeURIComponent(displayString);
 
-  const [inputs, setInputs] = useState(decoded);
+  const [inputs, setInputs] = useState<string>(decoded);
 
   const handleSearch = (e, aKeywords) => {
     const inputValue = aKeywords ?? e?.target?.value ?? "";
@@ -36,8 +37,8 @@ export default function Home({ tabIndex }) {
       return cnt === inputValueArray.length;
     };
 
-    const newEntries = [...originalData].filter(([, val]) =>
-      getIsIncluded(val)
+    const newEntries = new Map(
+      [...originalData].filter(([, val]) => getIsIncluded(val))
     );
     setData(newEntries);
   };

@@ -4,7 +4,7 @@ import Map from "../components/Map";
 import { priorityArray } from "../utils/common";
 
 export default function HomeComponent({ tabIndex, data, inputs }) {
-  const activeKey = tabIndex ? "/map" : "/";
+  const activeKey: string = tabIndex ? "/map" : "/";
 
   const getQueryString = (aInputs) => {
     const keywordsArray = aInputs.split(/[ 　]+/);

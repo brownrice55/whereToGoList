@@ -1,10 +1,9 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { getData } from "../utils/common";
-
-export const DoesDataExistContext = createContext();
+import { DoesDataExistContext } from "./context";
 
 export function DataProvider({ children }) {
-  const [doesDataExist, setDoesDataExist] = useState(getData().size);
+  const [doesDataExist, setDoesDataExist] = useState<number>(getData().size);
   return (
     <DoesDataExistContext.Provider value={{ doesDataExist, setDoesDataExist }}>
       {children}

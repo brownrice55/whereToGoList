@@ -5,9 +5,9 @@ import { getCategories } from "../utils/common";
 
 export default function Category() {
   const categories = getCategories();
-  const [form, setForm] = useState(categories);
-  const [alert, setAlert] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [form, setForm] = useState<string[]>(categories);
+  const [alert, setAlert] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const handleInput = (index, e) => {
     const newForm = [...form];

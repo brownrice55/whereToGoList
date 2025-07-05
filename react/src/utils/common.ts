@@ -1,13 +1,18 @@
 export function getCategories() {
-  const data = JSON.parse(localStorage.getItem("whereToGoListCategory"));
-  return data ? data : ["観光スポット", "飲食店", "雑貨店"];
+  const raw = localStorage.getItem("whereToGoListCategory");
+  const data: string[] = raw
+    ? JSON.parse(raw)
+    : ["観光スポット", "飲食店", "雑貨店"];
+  return data;
 }
 
+import type { Value } from "../types/value.interface";
+
 export function getData() {
-  let data = new Map();
+  let data = new Map<number, Value>();
   const dataFromLocalStorage = localStorage.getItem("whereToGoListData");
   if (dataFromLocalStorage !== "undefined") {
-    const dataJson = JSON.parse(dataFromLocalStorage);
+    const dataJson: unknown = JSON.parse(dataFromLocalStorage);
     data = new Map(dataJson);
   }
   return data;
