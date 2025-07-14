@@ -3,6 +3,7 @@ import { key } from "../config/api-config";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "../css/map.css";
 import "leaflet/dist/leaflet.css";
+import type { Value } from "../types/value.interface";
 
 type MapType = {
   results: Array<{
@@ -13,23 +14,36 @@ type MapType = {
   }>;
 };
 
-const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-const fetchApi = async (aApiURL) => {
+const sleep = (delay: number) =>
+  new Promise((resolve) => setTimeout(resolve, delay));
+const fetchApi = async (aApiURL: string) => {
   await sleep(1000);
   const res = await fetch(aApiURL);
   if (res.ok) {
-    return res.json() as MapType;
+    const response = (await res.json()) as MapType;
+    return response;
   } else {
     throw new Error(res.statusText);
   }
 };
 
-export default function Map({ data }) {
-  const [locations, setLocations] = useState([]);
+type LocationType = {
+  place: string;
+  station: string;
+  lat: number;
+  lng: number;
+}[];
+
+type MapProps = {
+  data: Map<number, Value>;
+};
+
+export default function Map({ data }: MapProps) {
+  const [locations, setLocations] = useState<LocationType>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
-  const getApiURL = (aAddress) => {
+  const getApiURL = (aAddress: string) => {
     return `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
       aAddress
     )}&key=${key}&language=ja`;
@@ -50,12 +64,24 @@ export default function Map({ data }) {
             };
           }
           return null;
-        } catch (err) {
+        } catch (err: any) {
           setError(err.message);
         }
       })
     )
-      .then((val) => setLocations(val.filter(Boolean)))
+      .then((val) => {
+        const filtered = val.filter(
+          (
+            item
+          ): item is {
+            place: string;
+            station: string;
+            lat: number;
+            lng: number;
+          } => !!item
+        );
+        setLocations(filtered);
+      })
       .finally(() => setIsLoading(false));
   }, [data]);
 
@@ -69,7 +95,7 @@ export default function Map({ data }) {
     return <p className="py-4">データを取得できませんでした。</p>;
   }
 
-  const locationLength = locations.length;
+  const locationLength: number = locations.length;
   if (!locationLength) {
     return <p className="py-4">該当するデータがありません。</p>;
   }
@@ -80,7 +106,10 @@ export default function Map({ data }) {
     latTotal += location.lat;
     lngTotal += location.lng;
   });
-  const center = [latTotal / locationLength, lngTotal / locationLength];
+  const center: [number, number] = [
+    latTotal / locationLength,
+    lngTotal / locationLength,
+  ];
 
   return (
     <>

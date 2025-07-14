@@ -1,3 +1,11 @@
 import { createContext } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
-export const DoesDataExistContext = createContext();
+interface DoesDataExistContextType {
+  doesDataExist: number;
+  setDoesDataExist: Dispatch<SetStateAction<number>>;
+}
+
+export const DoesDataExistContext = createContext<
+  DoesDataExistContextType | undefined
+>(undefined);

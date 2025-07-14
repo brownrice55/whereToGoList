@@ -10,15 +10,21 @@ import type { Value } from "../types/value.interface";
 
 export function getData() {
   let data = new Map<number, Value>();
-  const dataFromLocalStorage = localStorage.getItem("whereToGoListData");
+  const dataFromLocalStorage: string | null =
+    localStorage.getItem("whereToGoListData");
   if (dataFromLocalStorage !== "undefined") {
-    const dataJson: unknown = JSON.parse(dataFromLocalStorage);
+    let dataJson: any;
+    if (typeof dataFromLocalStorage === "string") {
+      dataJson = JSON.parse(dataFromLocalStorage);
+    } else {
+      dataJson = null;
+    }
     data = new Map(dataJson);
   }
   return data;
 }
 
-export const priorityArray = [
+export const priorityArray: string[] = [
   "凄く行ってみたい",
   "まぁまぁ行ってみたい",
   "ちょっと気になる",

@@ -1,13 +1,22 @@
 import ListGroup from "react-bootstrap/ListGroup";
 
+type ListProps = {
+  place: string;
+  station: string;
+  category: string;
+  priorityString: string;
+  address: string;
+  notes: string;
+};
+
 export default function List({
   place,
   station,
   category,
-  priority,
+  priorityString,
   address,
   notes,
-}) {
+}: ListProps) {
   return (
     <>
       <ListGroup variant="flush" className="my-3">
@@ -29,7 +38,7 @@ export default function List({
               {category}
             </span>
             <span className="py-2 px-3 badge text-bg-secondary">
-              {priority}
+              {priorityString}
             </span>
           </div>
           <p className="pt-3">{address}</p>

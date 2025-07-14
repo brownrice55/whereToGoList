@@ -1,18 +1,33 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useContext } from "react";
+import type { SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { getCategories, getData, priorityArray } from "../utils/common";
 import { DoesDataExistContext } from "../contexts/context";
 import type { Value } from "../types/value.interface";
 
-export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
-  const originalData = getData();
-  const [data, setData] = useState<number, Value>(originalData);
-  const { setDoesDataExist } = useContext<number>(DoesDataExistContext);
+type FormProps = {
+  keyNumber: number;
+  isClosed?: boolean;
+  onUpdate?: (value: boolean) => void;
+};
 
-  const keysArray = data.size && Array.from(data.keys());
-  let nextId = keyNumber
+export default function FormForAddAndEdit({
+  keyNumber,
+  isClosed,
+  onUpdate,
+}: FormProps) {
+  const originalData = getData();
+  const [data, setData] = useState<Map<number, Value>>(originalData);
+  const context = useContext(DoesDataExistContext);
+  if (!context) {
+    throw new Error("error");
+  }
+  const { setDoesDataExist } = context;
+
+  const keysArray: number[] = data.size ? Array.from(data.keys()) : [];
+  let nextId: number = keyNumber
     ? keyNumber
     : data.size
     ? keysArray[keysArray.length - 1]
@@ -24,12 +39,16 @@ export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
   const btnText: string = keyNumber ? "上書き保存する" : "登録する";
 
   const defaultValues = {
-    place: keyNumber ? dataForEdit.place : "",
-    category: keyNumber ? dataForEdit.category : categories[0],
-    address: keyNumber ? dataForEdit.address : "",
-    priority: keyNumber ? dataForEdit.priority : 1,
-    station: keyNumber ? dataForEdit.station : "",
-    notes: keyNumber ? dataForEdit.notes : "",
+    place: keyNumber ? (dataForEdit ? dataForEdit.place : "") : "",
+    category: keyNumber
+      ? dataForEdit
+        ? dataForEdit.category
+        : categories[0]
+      : "",
+    address: keyNumber ? (dataForEdit ? dataForEdit.address : "") : "",
+    priority: keyNumber ? (dataForEdit ? dataForEdit.priority : 1) : 0,
+    station: keyNumber ? (dataForEdit ? dataForEdit.station : "") : "",
+    notes: keyNumber ? (dataForEdit ? dataForEdit.notes : "") : "",
   };
 
   const {
@@ -43,8 +62,8 @@ export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
     mode: "onChange",
   });
 
-  const onsubmit = (data) => console.log(data);
-  const onerror = (err) => console.log(err);
+  const onsubmit: SubmitHandler<Value> = (values) => console.log(values);
+  const onerror: SubmitErrorHandler<Value> = (err) => console.log(err);
 
   const registerData = () => {
     const values = getValues();
@@ -52,8 +71,8 @@ export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
     data.set(nextId, values);
     localStorage.setItem("whereToGoListData", JSON.stringify([...data]));
     setData(data);
-    setDoesDataExist(true);
-    if (keyNumber) {
+    setDoesDataExist(1);
+    if (keyNumber && onUpdate) {
       onUpdate(!isClosed);
     }
   };
@@ -65,7 +84,7 @@ export default function FormForAddAndEdit({ keyNumber, isClosed, onUpdate }) {
   }, [isSubmitSuccessful, reset]);
 
   const handleCancel = () => {
-    if (keyNumber) {
+    if (keyNumber && onUpdate) {
       onUpdate(!isClosed);
     } else {
       reset();

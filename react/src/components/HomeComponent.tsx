@@ -2,11 +2,22 @@ import Nav from "react-bootstrap/Nav";
 import List from "../components/List";
 import Map from "../components/Map";
 import { priorityArray } from "../utils/common";
+import type { Value } from "../types/value.interface";
 
-export default function HomeComponent({ tabIndex, data, inputs }) {
+type HomeComponentProps = {
+  tabIndex: number;
+  data: Map<number, Value>;
+  inputs: string;
+};
+
+export default function HomeComponent({
+  tabIndex,
+  data,
+  inputs,
+}: HomeComponentProps) {
   const activeKey: string = tabIndex ? "/map" : "/";
 
-  const getQueryString = (aInputs) => {
+  const getQueryString = (aInputs: string) => {
     const keywordsArray = aInputs.split(/[ 　]+/);
     return Array.isArray(keywordsArray)
       ? keywordsArray.join("&")
@@ -38,7 +49,7 @@ export default function HomeComponent({ tabIndex, data, inputs }) {
               place={val.place}
               station={val.station}
               category={val.category}
-              priority={priorityArray[parseInt(val.priority) - 1]}
+              priorityString={priorityArray[val.priority - 1]}
               address={val.address}
               notes={val.notes}
             />

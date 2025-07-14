@@ -5,10 +5,15 @@ import EditAndDeleteData from "../components/EditAndDeleteData";
 
 import { useContext } from "react";
 import { DoesDataExistContext } from "../contexts/context";
+import type { TabIndexProps } from "../types/tabindexprops.type";
 
-export default function Settings({ tabIndex }) {
+export default function Settings({ tabIndex }: TabIndexProps) {
   const activeKey: string = tabIndex ? "/edit" : "/add";
-  const { doesDataExist } = useContext<number>(DoesDataExistContext);
+  const context = useContext(DoesDataExistContext);
+  if (!context) {
+    throw new Error("error");
+  }
+  const { doesDataExist } = context;
 
   return (
     <>

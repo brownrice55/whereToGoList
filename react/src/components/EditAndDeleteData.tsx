@@ -8,23 +8,27 @@ import { useNavigate } from "react-router-dom";
 import { DoesDataExistContext } from "../contexts/context";
 import { getData } from "../utils/common";
 import type { Value } from "../types/value.interface";
-
 import FormForAddAndEdit from "./FormForAddAndEdit";
 
 export default function EditAndDeleteData() {
-  const { setDoesDataExist } = useContext<boolean>(DoesDataExistContext);
+  const context = useContext(DoesDataExistContext);
+  if (!context) {
+    throw new Error("error");
+  }
+  const { setDoesDataExist } = context;
+
   const originalData = getData();
-  const [data, setData] = useState<number, Value>(originalData);
+  const [data, setData] = useState<Map<number, Value>>(originalData);
 
   const navigate = useNavigate();
 
-  const handleDelete = (key) => {
+  const handleDelete = (key: number) => {
     const newMap = new Map(data);
     newMap.delete(key);
     setData(newMap);
     localStorage.setItem("whereToGoListData", JSON.stringify([...newMap]));
-    if (!newMap.size) {
-      setDoesDataExist(false);
+    if (!newMap.size && setDoesDataExist) {
+      setDoesDataExist(0);
       navigate("/");
     }
   };
@@ -33,12 +37,12 @@ export default function EditAndDeleteData() {
   const [nextId, setNextId] = useState<number>(0);
 
   const handleClose = () => setShow(false);
-  const handleEdit = (key) => {
+  const handleEdit = (key: number) => {
     setShow(true);
     setNextId(key);
   };
 
-  const handleUpdate = (isClosed) => {
+  const handleUpdate = (isClosed: boolean) => {
     if (isClosed) {
       handleClose();
     }

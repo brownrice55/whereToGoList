@@ -6,7 +6,11 @@ import { useContext } from "react";
 import { DoesDataExistContext } from "./contexts/context";
 
 function App() {
-  const { doesDataExist } = useContext(DoesDataExistContext);
+  const context = useContext(DoesDataExistContext);
+  if (!context) {
+    throw new Error("Provider missing!");
+  }
+  const { doesDataExist } = context;
 
   return (
     <>
@@ -16,11 +20,17 @@ function App() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/" className={!doesDataExist && "d-none"}>
+              <Nav.Link
+                href="/"
+                className={!doesDataExist ? "d-none" : undefined}
+              >
                 ホーム
               </Nav.Link>
               <Nav.Link href="/add">新規追加</Nav.Link>
-              <Nav.Link href="/edit" className={!doesDataExist && "d-none"}>
+              <Nav.Link
+                href="/edit"
+                className={!doesDataExist ? "d-none" : undefined}
+              >
                 編集・削除
               </Nav.Link>
               <Nav.Link href="/category">カテゴリー設定</Nav.Link>

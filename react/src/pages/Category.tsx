@@ -9,7 +9,12 @@ export default function Category() {
   const [alert, setAlert] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
-  const handleInput = (index, e) => {
+  const handleInput = (
+    index: number,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const newForm = [...form];
     newForm[index] = e.target.value;
     const values = newForm.filter((val) => val);
