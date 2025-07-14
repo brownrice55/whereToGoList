@@ -66,16 +66,18 @@ export default function Home({ tabIndex }: TabIndexProps) {
 
   return (
     <>
-      <Form.Group className="mt-5" controlId="form">
-        <Form.Control
-          type="text"
-          placeholder="どこに行きたいですか？何をしたいですか？"
-          value={inputs}
-          onChange={(e) => handleSearch(e, "null")}
-        />
-      </Form.Group>
       {doesDataExist ? (
-        <HomeComponent tabIndex={tabIndex} data={data} inputs={inputs} />
+        <>
+          <Form.Group className="mt-5" controlId="form">
+            <Form.Control
+              type="text"
+              placeholder="どこに行きたいですか？何をしたいですか？"
+              value={inputs}
+              onChange={(e) => handleSearch(e, "null")}
+            />
+          </Form.Group>
+          <HomeComponent tabIndex={tabIndex} data={data} inputs={inputs} />
+        </>
       ) : (
         <AddNewData />
       )}

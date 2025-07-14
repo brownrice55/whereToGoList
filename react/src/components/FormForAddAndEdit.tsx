@@ -44,9 +44,9 @@ export default function FormForAddAndEdit({
       ? dataForEdit
         ? dataForEdit.category
         : categories[0]
-      : "",
+      : categories[0],
     address: keyNumber ? (dataForEdit ? dataForEdit.address : "") : "",
-    priority: keyNumber ? (dataForEdit ? dataForEdit.priority : 1) : 0,
+    priority: keyNumber ? (dataForEdit ? dataForEdit.priority : 1) : 1,
     station: keyNumber ? (dataForEdit ? dataForEdit.station : "") : "",
     notes: keyNumber ? (dataForEdit ? dataForEdit.notes : "") : "",
   };
